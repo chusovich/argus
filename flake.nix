@@ -4,6 +4,8 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixos-raspberrypi.url = "github:nvmd/nixos-raspberrypi/main";
+    disko.url = "github:nix-community/disko";
+    disko.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   # Optional: Binary cache for the flake
@@ -16,12 +18,13 @@
     ];
   };
 
-  outputs = { self, nixpkgs, nixos-raspberrypi }: 
+  outputs = { self, nixpkgs, nixos-raspberrypi, disko }: 
   {
     nixosConfigurations.artemis = nixos-raspberrypi.lib.nixosSystem {
       system = "aarch64-linux";
       specialArgs = { inherit nixos-raspberrypi nixpkgs; };
       modules = [
+        disko.nixosModules.disko        
         ./configuration.nix
         ({ config, pkgs, lib, nixos-raspberrypi, ... }: {
           imports = with nixos-raspberrypi.nixosModules; [

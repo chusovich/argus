@@ -1,28 +1,22 @@
-{ config, lib, pkgs, nixos-raspberrypi, ... }:
+{ config, modulesPath, lib, pkgs, nixos-raspberrypi, ... } @ args:
 
 {
   imports = [
+    (modulesPath + "/installer/scan/not-detected.nix")
+    (modulesPath + "/profiles/qemu-guest.nix")
+    ./disk-config.nix
     ./hardware-configuration.nix # Include the results of the hardware scan.
     ./pi-configtxt.nix # boot/config.txt for raspberry pi
   ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
-  #boot.loader.grub.enable = false;
-  #boot.loader.generic-extlinux-compatible.enable = true;
-  
-  #boot.loader.raspberryPi.enable = true;
-  
-  # trying to copy nvmd github example
-  #system.nixos.tags = let
-  #  cfg = config.boot.loader.raspberryPi;
-  #in [
-  #  "raspberry-pi-${cfg.variant}"
-  #  cfg.bootloader
-  #  config.boot.kernelPackages.kernel.version
-  #];  
-
-  # Camera packages
+  users.users.root.openssh.authorizedKeys.keys = [
+    # change this to your ssh key
+    "# CHANGE"
+  ]
+ 
+ # Camera packages
   environment.systemPackages = [
     nixos-raspberrypi.packages.${pkgs.system}.libcamera
     nixos-raspberrypi.packages.${pkgs.system}.rpicam-apps
