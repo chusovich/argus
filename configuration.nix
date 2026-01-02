@@ -19,10 +19,10 @@
  
  # Camera packages
   environment.systemPackages = [
-    pkgs.raspberrypi.libcamera
-    pkgs.raspberrypi.rpicam-apps
-    #nixos-raspberrypi.packages.${pkgs.system}.libcamera
-    #nixos-raspberrypi.legacyPackages.${pkgs.system}.rpicam-apps
+    #pkgs.raspberrypi.libcamera
+    #pkgs.raspberrypi.rpicam-apps
+    nixos-raspberrypi.legacyPackages.${pkgs.system}.libcamera
+    nixos-raspberrypi.legacyPackages.${pkgs.system}.rpicam-apps
   ];
    
   # Network Configuration
