@@ -14,12 +14,12 @@
   boot.extraModulePackages = [ ];
 
   fileSystems."/" = {
-    device = "/dev/disk/by-partlabel/NIXOS_SD";
+    device = "/dev/disk/by-label/NIXOS_SD";
     fsType = "ext4";
   };
 
   fileSystems."/boot/firmware" = {
-    device = "/dev/disk/by-partlabel/FIRMWARE";
+    device = "/dev/disk/by-label/FIRMWARE";
     fsType = "vfat";
     neededForBoot = true;
   };
