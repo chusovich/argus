@@ -19,8 +19,8 @@
  
  # Camera packages
   environment.systemPackages = [
-    nixos-raspberrypi.packages.aarch-64.libcamera
-    nixos-raspberrypi.packages.aarch-64.rpicam-apps
+    nixos-raspberrypi.packages.${pkgs.system}.libcamera
+    nixos-raspberrypi.packages.${pkgs.system}.rpicam-apps
   ];
  
   # Network Configuration
