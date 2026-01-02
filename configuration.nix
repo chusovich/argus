@@ -19,14 +19,16 @@
  
  # Camera packages
   environment.systemPackages = [
-    pkgs.libcamera
-    pkgs.rpicam-apps
+    #pkgs.libcamera
+    #pkgs.rpicam-apps
     #nixos-raspberrypi.packages.${pkgs.system}.libcamera
     #nixos-raspberrypi.legacyPackages.${pkgs.system}.rpicam-apps
   ];
   
+  hardware.raspberry-pi."4".camera.enable = true;
+
   # Trying to fix ipa path error for rpicam
-  environment.variables.LIBCAMERA_IPA_PATH = "${pkgs.libcamera}/lib/libcamera/ipa";
+  #environment.variables.LIBCAMERA_IPA_PATH = "${pkgs.libcamera}/lib/libcamera/ipa";
  
   # Network Configuration
   networking = {
