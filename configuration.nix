@@ -19,7 +19,7 @@
 
  #Camera packages
   environment.systemPackages = [
-    pkgs.rpi.libcamera
+    #pkgs.rpi.libcamera
     pkgs.rpi.rpicam-apps
     #nixos-raspberrypi.legacyPackages.${pkgs.system}.libcamera
     #nixos-raspberrypi.legacyPackages.${pkgs.system}.rpicam-apps
