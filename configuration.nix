@@ -17,16 +17,10 @@
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAII23H7VPE8Fwz0y2dbWPGedl2uleLkscGlsC+Bi+oUxX calebmhusovich@gmail.com"
   ];
 
-  # Enable the Raspberry Pi camera module
-  hardware.raspberryPi.camera = {
-    enable = true;
-    firmware = true; # optional: ensures firmware blobs are present
-  };
- 
- # Camera packages
+ #Camera packages
   environment.systemPackages = [
-    pkgs.libcamera
-    pkgs.rpicam-apps
+    pkgs.rpi.libcamera
+    pkgs.rpi.rpicam-apps
     #nixos-raspberrypi.legacyPackages.${pkgs.system}.libcamera
     #nixos-raspberrypi.legacyPackages.${pkgs.system}.rpicam-apps
     pkgs.git
