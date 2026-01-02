@@ -19,8 +19,8 @@
  
  # Camera packages
   environment.systemPackages = [
-    libcamera
-    rpicam-apps
+    #libcamera
+    #rpicam-apps
     #nixos-raspberrypi.packages.${pkgs.system}.libcamera
     #nixos-raspberrypi.packages.${pkgs.system}.rpicam-apps
   ];
