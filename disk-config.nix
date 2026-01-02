@@ -1,5 +1,6 @@
 { disk, pkgs, ... }:
 let
+  disk = "mmcblk0";
   configTxt = pkgs.writeText "config.txt" ''
     [pi4]
     kernel=u-boot-rpi4.bin
