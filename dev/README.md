@@ -99,49 +99,6 @@ To connect to a WiFi network on the Pi, use the following commands:
    ```sh
    nmcli connection show
    ```
-
-### Firmware Service Management
-
-The Manafish firmware runs as a systemd service. It is set to run automatically
-on startup, but during development it can be useful to stop/start/restart it.
-Here are the common commands to manage it:
-
-1. Start the firmware service:
-
-   ```sh
-   sudo systemctl start manafish-firmware
-   ```
-
-2. Stop the firmware service:
-
-   ```sh
-   sudo systemctl stop manafish-firmware
-   ```
-
-3. Restart the firmware service:
-
-   ```sh
-   sudo systemctl restart manafish-firmware
-   ```
-
-4. Check the service status:
-
-   ```sh
-   sudo systemctl status manafish-firmware
-   ```
-
-5. Disable the service from starting on boot:
-
-   ```sh
-   sudo systemctl disable manafish-firmware
-   ```
-
-6. View service logs:
-
-  ```sh
-  journalctl -u manafish-firmware -f
-  ```
-
 ## License
 
 This project is licensed under the GNU Affero General Public License v3.0 or
