@@ -92,7 +92,7 @@
         };
         cma = {
           enable = true;
-          params.cma = "cma-512";
+          value = "cma-512";
         };
       };
       base-dt-params = {
