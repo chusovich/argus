@@ -22,6 +22,8 @@
   # Camera packages
   environment = {
     systemPackages = with pkgs; [
+      git
+      just
       rpi.libcamera
       rpi.rpicam-apps  
     ];
@@ -71,10 +73,7 @@
     isNormalUser = true;
     description = "Caleb Husovich";
     extraGroups = [ "video" "networkmanager" "wheel" "docker" ];
-    packages = with pkgs; [ 
-      just
-      git
-    ];
+    packages = with pkgs; [ ];
   };
 
   # SSH
