@@ -1,4 +1,4 @@
-{ disk, config, modulesPath, lib, pkgs, nixos-raspberrypi, ... } @ args:
+{ config, modulesPath, lib, pkgs, ... }:
 
 {
   imports = [
@@ -6,7 +6,7 @@
     (modulesPath + "/profiles/qemu-guest.nix")
     ./disk-config.nix
     ./hardware-configuration.nix # Include the results of the hardware scan.
-#    ./pi-configtxt.nix # boot/config.txt for raspberry pi
+    ./pi-configtxt.nix # boot/config.txt for raspberry pi
   ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -71,7 +71,10 @@
     isNormalUser = true;
     description = "Caleb Husovich";
     extraGroups = [ "video" "networkmanager" "wheel" "docker" ];
-    packages = with pkgs; [ just git ];
+    packages = with pkgs; [ 
+      just
+      git
+    ];
   };
 
   # SSH

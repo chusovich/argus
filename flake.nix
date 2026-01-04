@@ -23,7 +23,7 @@ nixConfig = {
   {
     nixosConfigurations.artemis = nixos-raspberrypi.lib.nixosSystemFull {
       system = "aarch64-linux";
-      specialArgs = { inherit nixos-raspberrypi nixpkgs; };
+      specialArgs = { inherit nixos-raspberrypi ; };
       modules = [
         disko.nixosModules.disko        
         ./configuration.nix
@@ -31,8 +31,8 @@ nixConfig = {
           imports = with nixos-raspberrypi.nixosModules; [
             # Hardware configuration
             raspberry-pi-4.base
-            raspberry-pi-4.display-vc4
-            raspberry-pi-4.bluetooth
+#            raspberry-pi-4.display-vc4
+#            raspberry-pi-4.bluetooth
           ];
         })
       ];
