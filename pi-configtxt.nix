@@ -7,9 +7,9 @@
         cma = {
           enable = true;
           params = {
-            cma = {
+            cma-size = {
               enable = true; 
-              value = "cma-128";
+              value = "128000000";
             };
           };
         };
