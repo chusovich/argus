@@ -4,7 +4,6 @@
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
     (modulesPath + "/profiles/qemu-guest.nix")
-    ./disk-config.nix
     ./hardware-configuration.nix # Include the results of the hardware scan.
     ./pi-configtxt.nix # boot/config.txt for raspberry pi
   ];
@@ -61,6 +60,13 @@
     defaultGateway = "192.168.10.1";
     nameservers = [ "192.168.10.1" ];
   };
+
+  swapDevices = [
+    {
+      device = "/var/lib/swapfile";
+      size = 8 * 1024;
+    }
+  ];
 
   # Time zone.
   time.timeZone = "America/New_York";

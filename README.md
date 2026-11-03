@@ -27,47 +27,32 @@ nix.settings.extra-platforms = [ "aarch64-linux" ];
 
 ## Installing for the First Time
 ### 1) Build the SD Card Image
-- Clone the repo
+```sh
+just build-image
 ```
-git clone https://github.com/nvmd/nixos-raspberrypi.git
-```
-- `cd nixos-raspberrypi`
-- Build the image
-```
-sudo nix build .#installerImages.rpi4
-```
-- Image is built in `/result/sd-image`
+- The image is a fully configured system built from this flake
+- Output is in `result/sd-image/`
 
-### 2) Decompresss
-`/result` is read-only so you have to decompress the file to somewhere else:
+### 2) Decompress
+`result` is read-only, so decompress the image somewhere else:
 
 ```sh
-zstd -d nixos-installer-rpi4-uboot.img.zst -o ~/nixos-rpi4.img
+zstd -d result/sd-image/*.img.zst -o ~/artemis.img
 ```
 
-### 3) Flash USB Drive
-I used: `nix-shell -p mediawriter`
+### 3) Flash the SD Card
+Write `~/artemis.img` to the SD card with Raspberry Pi Imager, Etcher, or `dd`.
 
-### 4) Boot the Raspberry Pi from the USB Drive
-- Power off the Pi
-- Remove the SD card
-- Connect the USB drive
-- Connect monitor
-- Power on
-- Reinsert SD card
-- Root credentials with appear on the screen after a while
+### 4) Boot the Pi
+- Insert the SD card and power on
+- Wait for the first boot to finish
 
-### 4) Confirm Ssh Root Access
+### 5) Confirm SSH Access
 ```sh
 ssh root@<ip-address>
 ```
 
-### 5) Build the Flake 
-use `just install` to install the flake using nixos-anywhere
-
 ## References
 - [nixos-raspberrypi Flake GitHub](https://github.com/nvmd/nixos-raspberrypi)
-- [disko GitHub](https://github.com/nix-community/disko)
-- [nixos-anywhere GitHub](https://github.com/nix-community/nixos-anywhere)
 - [Raspberry Pi device tree overlay options](https://github.com/raspberrypi/linux/blob/rpi-6.6.y/arch/arm/boot/dts/overlays/README)
 - [nixos discourse: how to best deploy to raspberry pi](https://discourse.nixos.org/t/how-best-to-deploy-to-raspberry-pi/70410/8)

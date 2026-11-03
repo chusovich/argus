@@ -19,24 +19,27 @@ nixConfig = {
     nixos-raspberrypi.url = "github:nvmd/nixos-raspberrypi?shallow=1";
   };
 
-  outputs = { self, nixpkgs, nixos-raspberrypi, disko }: 
+  outputs = { self, nixpkgs, nixos-raspberrypi }: 
   {
     nixosConfigurations.artemis = nixos-raspberrypi.lib.nixosSystemFull {
       system = "aarch64-linux";
       specialArgs = { inherit nixos-raspberrypi ; };
       modules = [
-        disko.nixosModules.disko        
         ./configuration.nix
         ({ config, pkgs, lib, nixos-raspberrypi, ... }: {
           imports = with nixos-raspberrypi.nixosModules; [
             # Hardware configuration
             raspberry-pi-4.base
+            sd-image
 #            raspberry-pi-4.display-vc4
 #            raspberry-pi-4.bluetooth
           ];
         })
       ];
     };
+
+    packages.aarch64-linux.sd-image =
+      self.nixosConfigurations.artemis.config.system.build.sdImage;
   };
 }
 
