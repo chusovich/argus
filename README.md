@@ -1,58 +1,64 @@
-# Argus
-Nix fake for a Raspberry Pi based IP-camera
+# Custom NixOS Raspberry Pi 4 image
 
-## Goals
-- Hardware: the project will be testing on a Raspberry Pi 4 with 1GB of RAM and the offical Rasbperry Pi camera module, but the setup should work for different Pi's and cameras
-- The video stream should be optimized for [Frigate](https://frigate.video/)
-- The flake should be "batteries include" but also allow from customization (hostname, IP address, etc.)
+This flake builds a bootable NixOS aarch64 SD-card image for a Raspberry Pi 4. It enables Ethernet DHCP and SSH, and creates a `pi` administrator account.
 
-## Example Flake
-```nix
-# working on it..
+## Set your SSH key
+
+Edit `configuration.nix` and replace:
+
+```text
+ssh-ed25519 PLACEHOLDER_REPLACE_THIS_KEY pi@example.invalid
 ```
 
-## Updating
-It is recommended to build on your local machine and deploy the flake to your Pi.
-```nix
-sudo nixos-rebuild switch --flakle .#hostame --target-host root@<ip-address/hostname>
-```
+with your real public key, for example the contents of `~/.ssh/id_ed25519.pub`.
 
-> [!NOTE]
-> You may have to enable arm emulation to build the flake on your local machine
-```nix
-# Enable arm/raspi builds
-boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
-nix.settings.extra-platforms = [ "aarch64-linux" ];
-```
+The placeholder is intentionally not usable for login.
 
-## Installing for the First Time
-### 1) Build the SD Card Image
-```sh
-just build-image
-```
-- The image is a fully configured system built from this flake
-- Output is in `result/sd-image/`
+## Build
 
-### 2) Decompress
-`result` is read-only, so decompress the image somewhere else:
+From this directory, on a system with Nix flakes enabled:
 
 ```sh
-zstd -d result/sd-image/*.img.zst -o ~/artemis.img
+sudo nix build --accept-flake-config .#packages.aarch64-linux.sdImage
 ```
 
-### 3) Flash the SD Card
-Write `~/artemis.img` to the SD card with Raspberry Pi Imager, Etcher, or `dd`.
+`--accept-flake-config` lets Nix use the project's binary cache, so the kernel doesn't have to be compiled locally. The result is linked at `result/sd-image/` and contains a compressed `.img.zst` file.
 
-### 4) Boot the Pi
-- Insert the SD card and power on
-- Wait for the first boot to finish
+You can also build through the configuration attribute:
 
-### 5) Confirm SSH Access
 ```sh
-ssh root@<ip-address>
+nix build --accept-flake-config .#nixosConfigurations.rpi4-sd.config.system.build.sdImage
 ```
 
-## References
-- [nixos-raspberrypi Flake GitHub](https://github.com/nvmd/nixos-raspberrypi)
-- [Raspberry Pi device tree overlay options](https://github.com/raspberrypi/linux/blob/rpi-6.6.y/arch/arm/boot/dts/overlays/README)
-- [nixos discourse: how to best deploy to raspberry pi](https://discourse.nixos.org/t/how-best-to-deploy-to-raspberry-pi/70410/8)
+To update an existing Pi running this configuration instead, use the `rpi4` configuration (this doesn't build an image):
+
+```sh
+sudo nixos-rebuild switch --accept-flake-config --flake .#rpi4
+```
+
+Building for `aarch64-linux` on an x86_64 machine may require a configured remote builder or binfmt emulation. The build can otherwise be run directly on an aarch64 NixOS host.
+
+## Flash
+
+After identifying the SD card device carefully with `lsblk`, decompress and write the image:
+
+```sh
+zstd -dc result/sd-image/*.img.zst | sudo dd of=/dev/sdX bs=4M status=progress conv=fsync
+sudo sync
+```
+
+Replace `/dev/sdX` with the whole SD-card device, never a partition such as `/dev/sdX1`. Writing erases everything on that device, so unmount any of its partitions first if they were auto-mounted.
+
+## First connection
+
+Connect the Pi to Ethernet, find its DHCP address in your router, then connect using the key configured above:
+
+```sh
+ssh pi@<ip-address>
+```
+
+After logging in, make future configuration changes from the checked-out flake or copy it onto the Pi and run:
+
+```sh
+sudo nixos-rebuild switch --accept-flake-config --flake /path/to/nixos-rpi4-flake#rpi4
+```
