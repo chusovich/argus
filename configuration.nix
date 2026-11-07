@@ -27,7 +27,7 @@
     extraGroups = [ "wheel" ];
     initialPassword = "pipassword";
     openssh.authorizedKeys.keys = [
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPGio/sga7gD8ivT3zGDHzp89ex9Hy6I1ofNbhtpRQoh calebmhusovich@gmail.com"
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG17LI6HhyEp5b4wUOxgoY4/BHkJmTK19+vmFuXxB71j calebmhusovich@gmail.com"
     ];
   };
 
